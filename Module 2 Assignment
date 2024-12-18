@@ -1,0 +1,30 @@
+ # 1. Import Data 
+import pandas as pd
+    df = pd.read_csv('Total.csv')
+
+    # 2. Data Processing with Dictionary
+    Total = {}
+    for index, row in df.iterrows():
+        Total[row['Name']] = row.to_dict() #convert pandas Series to dictionary
+
+    # 3 & 4. Usage and Error Handling
+    employee_name_to_find = "NATHANIEL FORD"  
+    employee_details = get_employee_details(employee_name_to_find, Total)
+
+    if isinstance(employee_details, dict):  # Check if it's a dictionary (success)
+        print(f"Details for {employee_name_to_find}:")
+        for key, value in employee_details.items():
+            print(f"{key}: {value}")
+
+        # 5. Export to CSV and Zip
+        export_employee_to_csv(employee_details, employee_name_to_find)
+    else:
+        print(employee_details)  # Print the error message
+
+
+except FileNotFoundError:
+    print("Error: salary_data.csv not found. Please ensure the file is in the correct directory.")
+except pd.errors.ParserError:
+    print("Error: Could not parse salary_data.csv. Please check the file format.")
+except Exception as e:
+    print(f"An unexpected error occurred in the main program: {e}")
